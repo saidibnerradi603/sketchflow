@@ -3,6 +3,8 @@
  * Consumes real-time LangGraph streaming telemetry over Server-Sent Events.
  */
 
+export const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+
 export async function parseSSEStream(response, onEvent) {
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -51,7 +53,7 @@ export async function startAgentStream({
   onError
 }) {
   try {
-    const response = await fetch('/api/v1/agent/run-stream', {
+    const response = await fetch(`${API_BASE}/api/v1/agent/run-stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +86,7 @@ export async function resumeAgentStream({
   onError
 }) {
   try {
-    const response = await fetch('/api/v1/agent/resume-stream', {
+    const response = await fetch(`${API_BASE}/api/v1/agent/resume-stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -110,7 +112,7 @@ export async function resumeAgentStream({
 
 export async function checkSystemHealth() {
   try {
-    const res = await fetch('/api/v1/health');
+    const res = await fetch(`${API_BASE}/api/v1/health`);
     if (!res.ok) return { healthy: false };
     return await res.json();
   } catch (e) {
@@ -120,7 +122,7 @@ export async function checkSystemHealth() {
 
 export async function testWebhookLive({ webhookUrl, payload = { test: true, timestamp: Date.now() } }) {
   const pathSlug = webhookUrl ? webhookUrl.split('/').pop() : 'test';
-  const res = await fetch('/api/v1/deploy/test-webhook', {
+  const res = await fetch(`${API_BASE}/api/v1/deploy/test-webhook`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
