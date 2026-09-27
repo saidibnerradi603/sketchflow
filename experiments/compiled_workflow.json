@@ -1,0 +1,119 @@
+{
+  "name": "VIP Lead Intake Workflow",
+  "nodes": [
+    {
+      "id": "982f1813-7b3a-435a-81c3-4825d5bc9c48",
+      "name": "New Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.0,
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-intake",
+        "responseMode": "onReceived"
+      }
+    },
+    {
+      "id": "8cfc20c9-7961-47c1-9446-dfeb1948820b",
+      "name": "Is VIP?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        540,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true
+          },
+          "conditions": [
+            {
+              "id": "cond_1",
+              "leftValue": "={ $json.body.is_vip }",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "530e5b2a-a6dc-40b0-bf78-f6819b8b3ab3",
+      "name": "Send Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        840,
+        220
+      ],
+      "parameters": {
+        "select": "channel",
+        "channelId": "alerts",
+        "text": "=\ud83c\udf1f VIP Lead Intake: {{ $json.body.name || 'Anonymous' }} (Email: {{ $json.body.email || 'N/A' }})"
+      }
+    },
+    {
+      "id": "5f93e6f9-5d76-4e34-9277-4664306a5442",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        840,
+        380
+      ],
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Leads",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Name",
+              "fieldValue": "={ $json.body.name }"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "New Lead Webhook": {
+      "main": [
+        [
+          {
+            "node": "Is VIP?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is VIP?": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
