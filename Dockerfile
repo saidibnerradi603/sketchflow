@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
@@ -19,6 +19,6 @@ COPY src ./src
 COPY pyproject.toml .
 RUN pip install --no-cache-dir -e .
 
-# Railway automatically assigns $PORT
+# Railway dynamically assigns $PORT
 ENV PORT=8000
-CMD uvicorn sketchflow.main:app --host 0.0.0.0 --port ${PORT}
+CMD ["sh", "-c", "uvicorn sketchflow.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
