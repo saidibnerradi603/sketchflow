@@ -1,0 +1,62 @@
+# ==============================================================================
+# SketchFlow .gitignore
+# ==============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Secrets (NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Test, Cache & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Checkpoint databases & SQLite
+*.db
+*.sqlite
+*.sqlite3
+sketchflow_checkpoints.db
+
+# Frontend Dependencies & Build Outputs
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS & Editor Junk
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary & Local Scratch
+tmp/
+scratch/
+*.log

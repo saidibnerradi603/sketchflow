@@ -1,0 +1,26 @@
+[project]
+name = "sketchflow"
+version = "0.1.0"
+description = "Autonomous sketch-to-n8n automation agent"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "langchain",
+    "langchain-core",
+    "langchain-nvidia-ai-endpoints",
+    "langchain-groq",
+    "langgraph",
+    "python-dotenv",
+    "pillow",
+    "httpx",
+    "pytest",
+    "pydantic-settings",
+    "python-multipart",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
