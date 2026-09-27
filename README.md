@@ -12,6 +12,10 @@
 [![n8n](https://img.shields.io/badge/Engine-n8n%20REST%20API-EA4B71?logo=n8n&logoColor=white)](https://n8n.io)
 [![Tests](https://img.shields.io/badge/Tests-22%20Passing-brightgreen)](tests/)
 
+### 🌐 Live Production Deployments
+- 🎨 **Web Studio (Frontend):** [https://sketchflow-n8n.netlify.app/](https://sketchflow-n8n.netlify.app/)
+- ⚙️ **API Engine & Swagger Docs (Backend):** [https://sketchflow-production-7d12.up.railway.app/docs](https://sketchflow-production-7d12.up.railway.app/docs)
+
 ---
 
 ## Overview
