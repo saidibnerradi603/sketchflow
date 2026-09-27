@@ -3,7 +3,7 @@
  * Consumes real-time LangGraph streaming telemetry over Server-Sent Events.
  */
 
-export const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+export const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'https://sketchflow-production-7d12.up.railway.app').replace(/\/+$/, '').replace(/\/api\/v1\/?$/, '');
 
 export async function parseSSEStream(response, onEvent) {
   const reader = response.body.getReader();

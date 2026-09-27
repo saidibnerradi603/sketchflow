@@ -86,7 +86,7 @@ export default function Navbar({
 
           {/* API Docs Button */}
           <a
-            href="/docs"
+            href="https://sketchflow-production-7d12.up.railway.app/docs"
             target="_blank"
             rel="noreferrer"
             className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-slate-300 transition-colors"

@@ -7,6 +7,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  VITE_API_BASE_URL = "https://sketchflow-production-7d12.up.railway.app"
 
 # Single-Page Application (SPA) routing fallback
 [[redirects]]
