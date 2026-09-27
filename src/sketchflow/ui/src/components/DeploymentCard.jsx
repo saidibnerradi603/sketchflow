@@ -36,8 +36,8 @@ export default function DeploymentCard({
 
   if (!deploymentResult) return null;
 
-  const webhookUrl = deploymentResult.webhook_urls?.[0] || 'http://localhost:5678/webhook/test';
-  const editorUrl = deploymentResult.editor_url || `http://localhost:5678/workflow/${deploymentResult.workflow_id}`;
+  const webhookUrl = deploymentResult.webhook_urls?.[0] || 'https://primary-production-533c7.up.railway.app/webhook/test';
+  const editorUrl = deploymentResult.editor_url || `https://primary-production-533c7.up.railway.app/workflow/${deploymentResult.workflow_id}`;
 
   const handleCopyWebhook = () => {
     navigator.clipboard.writeText(webhookUrl);

@@ -94,12 +94,20 @@ class N8nService:
 
         is_active = False
         if activate and wf_id:
-            # 1. Try REST API activation
+            # 1. Try modern n8n v2+ publish endpoint, then legacy activate endpoint, then PUT active
             try:
                 async with httpx.AsyncClient(timeout=10.0) as client:
-                    act_res = await client.post(f"{self.base_url}/workflows/{wf_id}/activate", headers=self.headers)
-                    if act_res.status_code == 200:
+                    pub_res = await client.post(f"{self.base_url}/workflows/{wf_id}/publish", headers=self.headers)
+                    if pub_res.status_code in (200, 201):
                         is_active = True
+                    else:
+                        act_res = await client.post(f"{self.base_url}/workflows/{wf_id}/activate", headers=self.headers)
+                        if act_res.status_code in (200, 201):
+                            is_active = True
+                        else:
+                            upd_res = await client.put(f"{self.base_url}/workflows/{wf_id}", json={"active": True}, headers=self.headers)
+                            if upd_res.status_code in (200, 201):
+                                is_active = True
             except Exception:
                 pass
 
@@ -115,7 +123,9 @@ class N8nService:
                 if path:
                     webhook_urls.append(f"{self.webhook_base_url}/{path}")
 
-        editor_url = f"http://localhost:5678/workflow/{wf_id}" if wf_id else "http://localhost:5678"
+        # Compute dynamic editor URL from configured base URL
+        n8n_ui_host = self.base_url.replace("/api/v1", "").rstrip("/")
+        editor_url = f"{n8n_ui_host}/workflow/{wf_id}" if wf_id else n8n_ui_host
 
         return DeployWorkflowResponse(
             workflow_id=wf_id or "unknown",

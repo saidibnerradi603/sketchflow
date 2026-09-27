@@ -25,16 +25,8 @@ def _create_checkpointer():
     Creates the best available checkpointer.
     Prefers SqliteSaver for persistence; falls back to MemorySaver.
     """
-    try:
-        from langgraph.checkpoint.sqlite import SqliteSaver
-        import sqlite3
-        conn = sqlite3.connect(
-            "sketchflow_checkpoints.db", check_same_thread=False
-        )
-        return SqliteSaver(conn)
-    except (ImportError, Exception):
-        from langgraph.checkpoint.memory import MemorySaver
-        return MemorySaver()
+    from langgraph.checkpoint.memory import MemorySaver
+    return MemorySaver()
 
 
 def route_after_review(state: SketchFlowState) -> Literal["deploy", "__end__"]:
